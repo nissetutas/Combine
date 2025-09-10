@@ -258,15 +258,18 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 6px;
+  /* Säkerställer att alla element är centrerade vertikalt */
+  height: 40px; /* Fast höjd för konsistens */
 }
 
 input#score {
   font-size: 0.8rem;
   padding: 8px 10px;
-  height: auto;
+  height: 40px; /* Samma höjd som knapparna för perfekt inlinje */
   width: 120px;
   -webkit-appearance: none;
   -moz-appearance: textfield;
+  margin: 0; /* Tar bort eventuella marginaler som kan orsaka förskjutning */
 }
 input#score::-webkit-inner-spin-button,
 input#score::-webkit-outer-spin-button {
@@ -282,6 +285,10 @@ input#score::-webkit-outer-spin-button {
   justify-content: center;
   vertical-align: middle;
   line-height: 1;
+  height: 40px; /* Samma höjd som input och knappar */
+}
+button#okBtn, button#undoBtn {
+  height: 40px; /* Samma höjd för att säkerställa inlinje */
 }
 
 /* ===== Spelare / Mobil layout ===== */
@@ -570,11 +577,14 @@ input#score::-webkit-outer-spin-button {
 
   .input_actions {
     gap: 4px;
+    height: 40px; /* Samma höjd även i mobilvy */
   }
 
   input#score {
     width: 100%;
     max-width: 120px;
+    height: 40px; /* Konsistent höjd */
+    margin: 0;
     -webkit-appearance: none;
     -moz-appearance: textfield;
   }
