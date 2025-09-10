@@ -498,13 +498,15 @@ input#score::-webkit-outer-spin-button {
 }
 
 #score {
-    margin-top: 15px;
-    font-size: 1.1rem;
-    font-weight: 500;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
     color: var(--ink);
+    background: var(--bg);
+    padding: 10px;
+    border-radius: 8px;
     min-height: 1.5em; /* Prevent layout shift */
-    border-top: 1px solid var(--line);
-    padding-top: 15px;
+    border: 1px solid var(--line);
 }
 
 .marker {
@@ -515,6 +517,7 @@ input#score::-webkit-outer-spin-button {
     border-radius: 50%;
     pointer-events: none;
     display: none;
+    z-index: 1001;
 }
 
 
