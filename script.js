@@ -687,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTurnFinished = false;
 
     if (scoreDisplay) {
-        scoreDisplay.textContent = 'Hit: - Points: 0';
+        scoreDisplay.textContent = 'Last Hit: -';
     }
 
     if (isTouchDevice && marker) {
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modalTurnFinished || dartThrows >= 3) return;
 
       if (scoreDisplay) {
-        scoreDisplay.textContent = `Hit: ${hitName} - Points: ${points}`;
+        scoreDisplay.textContent = `Last Hit: ${hitName} (${points} pts)`;
       }
 
       dartThrows++;
@@ -870,9 +870,9 @@ document.addEventListener('DOMContentLoaded', () => {
           if (scoreDisplay) {
             if (hits.length > 0) {
               const lastHit = hits[hits.length - 1];
-              scoreDisplay.textContent = `Hit: ${lastHit.name} - Points: ${lastHit.score}`;
+              scoreDisplay.textContent = `Last Hit: ${lastHit.name} (${lastHit.score} pts)`;
             } else {
-              scoreDisplay.textContent = 'Hit: - Points: 0';
+              scoreDisplay.textContent = 'Last Hit: -';
             }
           }
       }

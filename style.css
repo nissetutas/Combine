@@ -499,21 +499,22 @@ input#score::-webkit-outer-spin-button {
 
 #score {
     margin-top: 20px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--ink);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--muted);
     background: var(--bg);
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 8px;
     min-height: 1.5em; /* Prevent layout shift */
     border: 1px solid var(--line);
+    text-align: left;
 }
 
 .marker {
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: #FFFF00;
     border-radius: 50%;
     pointer-events: none;
     display: none;
