@@ -647,27 +647,25 @@ document.addEventListener('DOMContentLoaded', () => {
   let totalScore = 0;
   let hits = [];
   let modalTurnFinished = false;
-  let stickyCheckoutRoute = null;
+  let stickyCheckoutRoute = null; // This seems to be part of the old logic, let's keep it for now.
 
-  // New state for mobile aiming
-  let isTouchDevice = false;
-  let isAiming = false;
-  let isLocked = false;
-  let aimPosition = { x: 0, y: 0 };
-
-  const dartBoard = document.getElementById('dartBoard');
-  const cursor = document.getElementById('cursor');
+  const dartBoardBtn = document.getElementById('dartBoardBtn');
+  const dartboard = document.getElementById('dartboard'); // Use new ID
   const modalContent = document.querySelector('.modal-content');
-  const registerHitBtn = document.getElementById('registerHitBtn');
   const remainingScoreTextEl = document.getElementById('remainingScoreText');
   const turnScoreTextEl = document.getElementById('turnScoreText');
   const dartCountTextEl = document.getElementById('dartCountText');
   const turnHitsTextEl = document.getElementById('turnHitsText');
   const checkoutSuggestionTextEl = document.getElementById('checkoutSuggestionText');
-  const dartBoardBtn = document.getElementById('dartBoardBtn');
 
-  function detectTouch() {
-    isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  const isTouchDevice = 'ontouchstart' in window;
+
+  // Create marker for touch devices
+  let marker;
+  if (isTouchDevice) {
+      marker = document.createElement('div');
+      marker.className = 'marker';
+      document.body.appendChild(marker);
   }
 
   function getCurrentPlayerRemainingScore() {
@@ -678,15 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function resetAimingState() {
-    isAiming = false;
-    isLocked = false;
-    cursor.classList.add('hidden');
-    modalContent.classList.remove('aim-mode');
-  }
-
   function openDartboardModal() {
-    detectTouch();
     const dartModal = document.getElementById('dartModal');
     dartModal.style.display = 'flex';
     dartModal.classList.remove('hidden');
@@ -695,7 +685,10 @@ document.addEventListener('DOMContentLoaded', () => {
     totalScore = 0;
     hits = [];
     modalTurnFinished = false;
-    resetAimingState();
+
+    if (isTouchDevice && marker) {
+        marker.style.display = 'none';
+    }
 
     const initialScore = getCurrentPlayerRemainingScore();
     const initialCheckout = checkoutText(initialScore);
@@ -714,17 +707,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dartModal) {
       dartModal.classList.add('hidden');
       const isBust = modalTurnFinished && remainingScoreTextEl.textContent.toUpperCase() === 'BUST';
-      document.getElementById('score').value = isBust ? 0 : totalScore;
+      // The old logic sets score to 0 on bust, which is wrong. It should be the total score thrown.
+      // The submitScore function handles the bust logic. Let's send the actual score.
+      document.getElementById('score').value = totalScore;
       submitScore();
     }
   });
 
   function getRelativeOffset() {
-    return 55;
+      return window.innerHeight * 0.05; // Relative offset ~5% of screen height
   }
 
   function getSvgCoords(clientX, clientY) {
-      const rect = dartBoard.getBoundingClientRect();
+      const rect = dartboard.getBoundingClientRect();
       const pixelX = clientX - rect.left;
       const pixelY = clientY - rect.top;
       const svgX = (pixelX / rect.width) * 453;
@@ -732,24 +727,41 @@ document.addEventListener('DOMContentLoaded', () => {
       return { x: svgX, y: svgY };
   }
 
-  function calculateScore(svgX, svgY) {
-    const centerX = 226.5;
-    const centerY = 226.5;
-    const sectors = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
-    const r = { ib: 6.9, ob: 16.45, it: 98.47, ot: 107.55, id: 161.45, od: 170.55 };
-    const dx = svgX - centerX;
-    const dy = svgY - centerY;
-    const radius = Math.sqrt(dx * dx + dy * dy);
-    let angle = (Math.atan2(dy, dx) * (180 / Math.PI) + 99) % 360;
-    if (angle < 0) angle += 360;
-    const sector = sectors[Math.floor(angle / 18)];
-    if (radius <= r.ib) return { hitLabel: 'Double Bull', points: 50, type: 'double' };
-    if (radius <= r.ob) return { hitLabel: 'Bull', points: 25, type: 'single' };
-    if (radius > r.od) return { hitLabel: 'Miss', points: 0, type: 'miss' };
-    if (radius > r.id) return { hitLabel: `D${sector}`, points: sector * 2, type: 'double' };
-    if (radius > r.ot) return { hitLabel: `S${sector}`, points: sector, type: 'single' };
-    if (radius > r.it) return { hitLabel: `T${sector}`, points: sector * 3, type: 'triple' };
-    return { hitLabel: `S${sector}`, points: sector, type: 'single' };
+  // New calculateHit function, adapted to include 'type'
+  function calculateHit(svgX, svgY) {
+      const centerX = 226.5;
+      const centerY = 226.5;
+      const sectors = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
+      const innerBullRadius = 6.9;
+      const outerBullRadius = 16.45;
+      const innerTripleRadius = 98.47;
+      const outerTripleRadius = 107.55;
+      const innerDoubleRadius = 161.45;
+      const outerDoubleRadius = 170.55;
+
+      const dx = svgX - centerX;
+      const dy = svgY - centerY;
+      const radius = Math.sqrt(dx * dx + dy * dy);
+      let angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+      if (angle < 0) angle += 360;
+      const sectorIndex = Math.floor(angle / 18) % 20;
+      const sector = sectors[sectorIndex];
+
+      if (radius <= innerBullRadius) {
+          return { hitLabel: 'Double Bull', points: 50, type: 'double' };
+      } else if (radius <= outerBullRadius) {
+          return { hitLabel: 'Bull', points: 25, type: 'single' };
+      } else if (radius > outerDoubleRadius) {
+          return { hitLabel: 'Miss', points: 0, type: 'miss' };
+      } else if (radius > innerDoubleRadius) {
+          return { hitLabel: `D${sector}`, points: sector * 2, type: 'double' };
+      } else if (radius > outerTripleRadius) {
+          return { hitLabel: `S${sector}`, points: sector, type: 'single' };
+      } else if (radius > innerTripleRadius) {
+          return { hitLabel: `T${sector}`, points: sector * 3, type: 'triple' };
+      } else {
+          return { hitLabel: `S${sector}`, points: sector, type: 'single' };
+      }
   }
 
   function recordHit(points, hitName, type) {
@@ -775,108 +787,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Event Listeners for Aiming ---
-  dartBoard.addEventListener('click', (event) => {
-    if (isTouchDevice) return;
-    const { x, y } = getSvgCoords(event.clientX, event.clientY);
-    const { points, hitLabel, type } = calculateScore(x, y);
-    recordHit(points, hitLabel, type);
-  });
+  if (!isTouchDevice) {
+      dartboard.addEventListener('click', (event) => {
+          if (modalTurnFinished) return;
+          const { x, y } = getSvgCoords(event.clientX, event.clientY);
+          const hit = calculateHit(x, y);
+          recordHit(hit.points, hit.hitLabel, hit.type);
+      });
+  }
 
-  dartBoard.addEventListener('touchstart', (event) => {
-    if (!isTouchDevice || dartThrows >= 3) return;
-    event.preventDefault();
-    cursor.classList.remove('hidden');
-    handleTouch(event);
-  }, { passive: false });
+  if (isTouchDevice) {
+      dartboard.addEventListener('touchstart', handleTouch);
+      dartboard.addEventListener('touchmove', handleTouch);
+      dartboard.addEventListener('touchend', handleTouchEnd);
 
-  dartBoard.addEventListener('touchmove', (event) => {
-    if (!isTouchDevice || dartThrows >= 3) return;
-    event.preventDefault();
-    handleTouch(event);
-  }, { passive: false });
+      function handleTouch(event) {
+          if (modalTurnFinished) return;
+          event.preventDefault();
+          const touch = event.touches[0];
+          const offset = getRelativeOffset();
+          const visualX = touch.clientX;
+          const visualY = touch.clientY - offset;
 
-  dartBoard.addEventListener('touchend', (event) => {
-    if (!isTouchDevice || dartThrows >= 3) return;
-    event.preventDefault();
-    const touch = event.changedTouches[0];
-    const offset = getRelativeOffset();
-    const visualX = touch.clientX;
-    const visualY = touch.clientY - offset;
-    const { x, y } = getSvgCoords(visualX, visualY);
-    const { points, hitLabel, type } = calculateScore(x, y);
-    recordHit(points, hitLabel, type);
-    cursor.classList.add('hidden');
-  });
+          marker.style.left = `${visualX - 5}px`;
+          marker.style.top = `${visualY - 5}px`;
+          marker.style.display = 'block';
+      }
 
-  function handleTouch(event) {
-    const touch = event.touches[0];
-    const offset = getRelativeOffset();
-    const visualX = touch.clientX;
-    const visualY = touch.clientY - offset;
-    cursor.style.left = `${visualX - 3.335}px`;
-    cursor.style.top = `${visualY - 3.335}px`;
+      function handleTouchEnd(event) {
+          if (modalTurnFinished) return;
+          const visualX = parseFloat(marker.style.left) + 5;
+          const visualY = parseFloat(marker.style.top) + 5;
+          const { x, y } = getSvgCoords(visualX, visualY);
+          const hit = calculateHit(x, y);
+          recordHit(hit.points, hit.hitLabel, hit.type);
+          marker.style.display = 'none';
+      }
   }
 
   function updateScoreDisplay(status = null) {
-    const remainingAfterTurn = getCurrentPlayerRemainingScore() - totalScore;
-    const displayHits = hits.map(h => h.name).join(", ");
+      const remainingAfterTurn = getCurrentPlayerRemainingScore() - totalScore;
+      const displayHits = hits.map(h => h.name).join(", ");
 
-    if (status) {
-      remainingScoreTextEl.textContent = status;
-      turnScoreTextEl.textContent = `(${totalScore})`;
-    } else {
-      remainingScoreTextEl.textContent = `Kvar: ${remainingAfterTurn}`;
-      turnScoreTextEl.textContent = `Poäng: ${totalScore}`;
-    }
-    dartCountTextEl.textContent = `Kast: ${dartThrows}/3`;
-    turnHitsTextEl.textContent = `Träffar: ${displayHits || "–"}`;
-
-    let checkout = "";
-    if (!modalTurnFinished) {
-      if (isLocked) {
-        checkout = "Siktet är låst. Tryck 'Registrera'.";
-      } else if (stickyCheckoutRoute && stickyCheckoutRoute.length > 0 && dartThrows > 0) {
-        checkout = `Följ: ${stickyCheckoutRoute.join(' → ')}`;
+      if (status) {
+          remainingScoreTextEl.textContent = status;
+          turnScoreTextEl.textContent = `(${totalScore})`;
       } else {
-        const scoreForSuggestion = getCurrentPlayerRemainingScore() - totalScore;
-        if (scoreForSuggestion >= 2 && scoreForSuggestion <= 170) {
-          const suggestions = checkoutText(scoreForSuggestion);
-          checkout = suggestions ? `Ut: ${suggestions.split(' <span class="checkout-separator">|</span> ')[0]}` : "";
-        }
+          remainingScoreTextEl.textContent = `Kvar: ${remainingAfterTurn}`;
+          turnScoreTextEl.textContent = `Poäng: ${totalScore}`;
       }
-    }
-    checkoutSuggestionTextEl.innerHTML = checkout;
+      dartCountTextEl.textContent = `Kast: ${dartThrows}/3`;
+      turnHitsTextEl.textContent = `Träffar: ${displayHits || "–"}`;
 
-    if (status) {
-      turnHitsTextEl.textContent = `Sista kast: ${hits.length > 0 ? hits[hits.length - 1].name : ''}`;
-      checkoutSuggestionTextEl.innerHTML = "";
-      resetAimingState();
-    }
+      let checkout = "";
+      if (!modalTurnFinished) {
+          const scoreForSuggestion = getCurrentPlayerRemainingScore() - totalScore;
+          if (scoreForSuggestion >= 2 && scoreForSuggestion <= 170) {
+              const suggestions = checkoutText(scoreForSuggestion);
+              checkout = suggestions ? `Ut: ${suggestions.split(' <span class="checkout-separator">|</span> ')[0]}` : "";
+          }
+      }
+      checkoutSuggestionTextEl.innerHTML = checkout;
+
+      if (status) {
+        turnHitsTextEl.textContent = `Sista kast: ${hits.length > 0 ? hits[hits.length - 1].name : ''}`;
+        checkoutSuggestionTextEl.innerHTML = "";
+      }
   }
 
   document.getElementById('undoModal').addEventListener('click', () => {
-    if (hits.length > 0) {
-      hits.pop();
-      totalScore = hits.reduce((sum, hit) => sum + hit.score, 0);
-      dartThrows = hits.length;
-      modalTurnFinished = false;
-
-      const initialScore = getCurrentPlayerRemainingScore();
-      const initialCheckout = checkoutText(initialScore);
-      if (initialCheckout) {
-        stickyCheckoutRoute = initialCheckout.split(' <span class="checkout-separator">|</span> ')[0].split(' ');
-        hits.forEach(hit => {
-          if (stickyCheckoutRoute && stickyCheckoutRoute.length > 0) {
-            if (hit.name === stickyCheckoutRoute[0]) stickyCheckoutRoute.shift();
-            else stickyCheckoutRoute = null;
-          }
-        });
-      } else {
-        stickyCheckoutRoute = null;
+      if (hits.length > 0) {
+          hits.pop();
+          totalScore = hits.reduce((sum, hit) => sum + hit.score, 0);
+          dartThrows = hits.length;
+          modalTurnFinished = false;
+          updateScoreDisplay();
       }
-
-      resetAimingState();
-      updateScoreDisplay();
-    }
   });
 });
