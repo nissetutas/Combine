@@ -1,520 +1,536 @@
 /* ===== Bas / Tema ===== */
 :root {
-  --bg: #0f1216;
-  --card: #171b21;
-  --ink: #e6e9ef;
-  --muted: #9aa3ad;
-  --accent: #00c853; /* grön */
-  --accent-2: #ff5252; /* röd */
-  --line: #232a32;
+    --bg: #0f1216;
+    --card: #171b21;
+    --ink: #e6e9ef;
+    --muted: #9aa3ad;
+    --accent: #00c853; /* grön */
+    --accent-2: #ff5252; /* röd */
+    --line: #232a32;
 }
 
 .light {
-  --bg: #f6f8fb;
-  --card: #ffffff;
-  --ink: #0b1220;
-  --muted: #5b6776;
-  --accent: #0066ff;
-  --accent-2: #c62828;
-  --line: #e5e7eb;
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --ink: #0b1220;
+    --muted: #5b6776;
+    --accent: #0066ff;
+    --accent-2: #c62828;
+    --line: #e5e7eb;
 }
 
 * {
-  box-sizing: border-box;
-}
-html, body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
-  display: flex;
-  justify-content: center;
+    box-sizing: border-box;
 }
 
-.hidden {
-  display: none !important;
+html, body {
+    height: 100%;
+    margin: 0;
 }
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
+    display: flex;
+    flex-direction: column; /* Gör body till flex-column för att placera footer längst ner */
+    align-items: center;
+    min-height: 100vh; /* Säkerställer att body fyller hela höjden */
+}
+
 .wrap {
-  width: 100%;
-  max-width: 900px;
-  padding: 16px;
+    width: 100%;
+    max-width: 900px;
+    padding: 16px;
+    flex: 1; /* Gör att .wrap tar upp tillgängligt utrymme och trycker footer ner */
 }
 
 .centered {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 4vh;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 4vh;
+    gap: 12px;
+    min-height: calc(100vh - 60px); /* Säkerställer att startsidan fyller skärmen minus footer */
+}
+
+.hidden {
+    display: none !important;
 }
 
 #start .card {
-  width: 100%;
-  max-width: none;
+    width: 100%;
+    max-width: none;
 }
 
 #game > section {
-  margin-bottom: 6px;
+    margin-bottom: 6px;
 }
 
 #game .card.header {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 h1, h2, h3 {
-  margin: .25rem 0 .5rem;
+    margin: 0.25rem 0 0.5rem;
 }
+
 label {
-  font-size: .9rem;
-  color: var(--muted);
+    font-size: 0.9rem;
+    color: var(--muted);
 }
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.22);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
 }
 
 .muted {
-  color: var(--muted);
-  font-style: italic;
+    color: var(--muted);
+    font-style: italic;
 }
 
 .checkout-separator {
-  color: #F18A00;
-  font-weight: bold;
-  padding: 0 4px;
+    color: #F18A00;
+    font-weight: bold;
+    padding: 0 4px;
 }
 
 .row {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
 }
 
 .row_two {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
 }
+
 .row_two .dropdown-container {
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    align-items: flex-start;
 }
+
 .row_two .hint {
-  margin-top: 8px;
-  font-size: 0.85rem;
+    margin-top: 8px;
+    font-size: 0.85rem;
 }
 
 input, select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
-  outline: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    outline: none;
 }
+
 input::placeholder {
-  color: var(--muted);
+    color: var(--muted);
 }
 
 button {
-  border: 1px solid transparent;
-  background: var(--line);
-  color: var(--ink);
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
+    border: 1px solid transparent;
+    background: var(--line);
+    color: var(--ink);
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
 }
+
 button.primary {
-  background: var(--accent);
-  color: white;
+    background: var(--accent);
+    color: white;
 }
+
 button.ghost {
-  background: transparent;
-  border-color: var(--line);
+    background: transparent;
+    border-color: var(--line);
 }
+
 button:disabled {
-  opacity: .6;
-  cursor: not-allowed;
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* ===== Tema-knappar ===== */
 .theme-buttons {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  display: flex;
-  gap: 8px;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    gap: 8px;
 }
+
 .theme-btn {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 8px;
-  font-size: 1rem;
-  line-height: 1;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 8px;
+    font-size: 1rem;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
 }
+
 .theme-btn:hover {
-  background: var(--accent);
-  transform: scale(1.1);
+    background: var(--accent);
+    transform: scale(1.1);
 }
 
 /* ===== Header ===== */
 .card.header {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
 }
 
 .header_row_one {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
 }
 
 .header_row_one h2 {
-  font-size: 1.5rem;
-  margin: 0;
-  white-space: nowrap;
-  flex-grow: 1;
+    font-size: 1.5rem;
+    margin: 0;
+    white-space: nowrap;
+    flex-grow: 1;
 }
 
 .actions {
-  display: flex;
-  gap: 6px;
+    display: flex;
+    gap: 6px;
 }
 
 .actions button {
-  padding: 10px;
-  font-size: 1.1rem;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-indent: -9999px;
-  overflow: hidden;
-  position: relative;
+    padding: 10px;
+    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-indent: -9999px;
+    overflow: hidden;
+    position: relative;
 }
+
 .actions button::after {
-  content: attr(data-symbol);
-  text-indent: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  font-size: inherit;
+    content: attr(data-symbol);
+    text-indent: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: inherit;
 }
 
 .header_row_two {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
 }
 
 .header_row_two .left_side {
-  flex: 1;
+    flex: 1;
 }
 
 .header_row_two .right_side {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .header_row_two p {
-  margin: 0;
-  font-weight: bold;
-  font-size: 0.9rem;
-  white-space: nowrap;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
 .input_actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  /* Säkerställer att alla element är centrerade vertikalt */
-  height: 40px; /* Fast höjd för konsistens */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px; /* Fast höjd för konsistens */
 }
 
 input#score {
-  font-size: 0.8rem;
-  padding: 8px 10px;
-  height: 40px; /* Samma höjd som knapparna för perfekt inlinje */
-  width: 120px;
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  margin: 0; /* Tar bort eventuella marginaler som kan orsaka förskjutning */
+    font-size: 0.8rem;
+    padding: 8px 10px;
+    height: 40px; /* Samma höjd som knapparna för perfekt inlinje */
+    width: 120px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0; /* Tar bort eventuella marginaler som kan orsaka förskjutning */
 }
+
 input#score::-webkit-inner-spin-button,
 input#score::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .icon-button {
-  font-size: 2rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  line-height: 1;
-  height: 40px; /* Samma höjd som input och knappar */
+    font-size: 2rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1;
+    height: 40px; /* Samma höjd som input och knappar */
 }
+
 button#okBtn, button#undoBtn {
-  height: 40px; /* Samma höjd för att säkerställa inlinje */
+    height: 40px; /* Samma höjd för att säkerställa inlinje */
 }
 
 /* ===== Spelare / Mobil layout ===== */
 .players {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 6px;
-  margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin: 0;
 }
 
 .player.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.22);
-  display: grid;
-  grid-template-rows: auto auto;
-  gap: 0px;
-  transition: transform 0.2s, border-color 0.2s;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 0px;
+    transition: transform 0.2s, border-color 0.2s;
 }
+
 .player.card.active {
-  border-color: #F18A00;
-  border-width: 2px;
+    border-color: #F18A00;
+    border-width: 2px;
 }
+
 .player.card:hover {
-  transform: scale(1.02);
+    transform: scale(1.02);
 }
+
 .player.card .row1 {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0;
 }
+
 .player.card .row1 .name {
-  font-weight: 700;
-  font-size: 1.1rem;
-  flex: 1;
-  min-width: 100px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex: 1;
+    min-width: 100px;
 }
+
 .player.card .row1 .score {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--accent);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent);
 }
+
 .player.card .row2 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: nowrap;
-  margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+    margin: 0;
 }
+
 .player.card .row2 .checkouts {
-  background: var(--card);
-  padding: 0px 0px;
-  border-radius: 0px;
-  color: var(--ink);
-  font-style: normal;
-  font-size: 0.9rem;
-  flex: 1;
-  max-width: 60%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    background: var(--card);
+    padding: 0px 0px;
+    border-radius: 0px;
+    color: var(--ink);
+    font-style: normal;
+    font-size: 0.9rem;
+    flex: 1;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
 .player.card .row2 .average {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--muted);
-  flex-shrink: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    flex-shrink: 0;
 }
 
 /* ===== Inmatning (sticky i mobil) ===== */
 .inputbar {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  position: sticky;
-  bottom: 8px;
-  margin-top: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    position: sticky;
+    bottom: 8px;
+    margin-top: 6px;
 }
+
 .inputbar input {
-  flex: 1;
+    flex: 1;
 }
 
 /* ===== Listor ===== */
 .list {
-  margin: 0;
-  padding-left: 18px;
+    margin: 0;
+    padding-left: 18px;
 }
+
 .list.ordered {
-  padding-left: 28px;
+    padding-left: 28px;
 }
+
 .list li {
-  margin: 4px 0;
+    margin: 4px 0;
 }
 
 /* ===== Footer ===== */
 .footer {
-  text-align: center;
-  color: #8f98a3;
-  font-size: .8rem;
-  margin: 14px 0 6px;
+    text-align: center;
+    color: #8f98a3;
+    font-size: 0.8rem;
+    margin: 14px 0 16px; /* Ökat bottom margin för att ge utrymme */
+    width: 100%;
+    max-width: 900px; /* Samma max-width som .wrap för konsistens */
 }
 
 /* ===== Dartboard Modal ===== */
-/* ===== Dartboard Modal ===== */
 .modal {
-  display: none; /* Standardvärde */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  transition: opacity 0.3s; /* Lägg till övergång för mjukhet */
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s;
 }
 
 .modal.hidden {
-  display: none !important; /* Överstyr display när hidden är aktiv */
+    display: none !important;
 }
 
 .modal-content {
-  background: var(--card);
-  padding: 20px;
-  border-radius: 14px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-  text-align: center;
-  opacity: 1; /* Standardvärde */
-  transform: translateY(0); /* Förhindrar hopp */
-  transition: opacity 0.3s, transform 0.3s; /* Samma övergång */
+    background: var(--card);
+    padding: 20px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    text-align: center;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .modal.hidden .modal-content {
-  opacity: 0;
-  transform: translateY(-20px); /* Liten uppåtflyttning vid gömning */
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
-
 .modal-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 #closeModal,
 #undoModal,
 #registerHitBtn {
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 8px;
 }
 
 .modal-display-grid {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .modal-display-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 2px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2px 0;
 }
 
 #remainingScoreText {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--accent);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent);
 }
 
 #turnScoreText {
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-align: right;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: right;
 }
 
 #dartCountText {
-  font-size: 1rem;
-  color: var(--muted);
-  text-align: center;
+    font-size: 1rem;
+    color: var(--muted);
+    text-align: center;
 }
 
 #turnHitsText {
-  font-size: 0.9rem;
-  color: var(--ink);
-  font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--ink);
+    font-weight: 500;
 }
 
 #checkoutSuggestionText {
-  font-size: 0.9rem;
-  color: var(--muted);
+    font-size: 0.9rem;
+    color: var(--muted);
 }
 
 #dartboard {
-  width: 100%;
-  max-width: 350px;
-  height: auto;
-  cursor: crosshair;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-#score {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--muted);
-    background: var(--bg);
-    padding: 8px 12px;
-    border-radius: 8px;
-    min-height: 1.5em; /* Prevent layout shift */
-    border: 1px solid var(--line);
-    text-align: left;
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    cursor: crosshair;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .marker {
@@ -528,92 +544,92 @@ button#okBtn, button#undoBtn {
     z-index: 1001;
 }
 
-
 /* By default, Register is hidden and OK is visible */
 #registerHitBtn {
-  display: none;
+    display: none;
 }
 
 /* In aim-mode, OK is hidden and Register is visible */
 .aim-mode #closeModal {
-  display: none;
+    display: none;
 }
+
 .aim-mode #registerHitBtn {
-  display: inline-block;
+    display: inline-block;
 }
 
-/* Media query för små skärmar (t.ex. telefoner) */
+/* ===== Media query för små skärmar (t.ex. telefoner) ===== */
 @media (max-width: 992px) {
-  .card.header {
-    padding: 8px;
-  }
+    .card.header {
+        padding: 8px;
+    }
 
-  .header_row_one {
-    flex-direction: row;
-    align-items: center;
-    gap: 4px;
-  }
+    .header_row_one {
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
 
-  .header_row_one h2 {
-    font-size: 1.2rem;
-    flex-grow: 1;
-    margin: 0;
-    white-space: nowrap;
-  }
+    .header_row_one h2 {
+        font-size: 1.2rem;
+        flex-grow: 1;
+        margin: 0;
+        white-space: nowrap;
+    }
 
-  .header_row_one .actions {
-    margin-left: auto;
-  }
+    .header_row_one .actions {
+        margin-left: auto;
+    }
 
-  .header_row_two {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
+    .header_row_two {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
 
-  .header_row_two .right_side {
-    width: 100%;
-  }
+    .header_row_two .right_side {
+        width: 100%;
+    }
 
-  .input_actions {
-    gap: 4px;
-    height: 40px; /* Samma höjd även i mobilvy */
-  }
+    .input_actions {
+        gap: 4px;
+        height: 40px; /* Samma höjd även i mobilvy */
+    }
 
-  input#score {
-    width: 100%;
-    max-width: 120px;
-    height: 40px; /* Konsistent höjd */
-    margin: 0;
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-  }
-  input#score::-webkit-inner-spin-button,
-  input#score::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+    input#score {
+        width: 100%;
+        max-width: 120px;
+        height: 40px; /* Konsistent höjd */
+        margin: 0;
+    }
 
-  .actions button {
-    padding: 10px;
-    font-size: 1.1rem;
-    width: 40px;
-    height: 40px;
-    text-indent: -9999px;
-    overflow: hidden;
-    position: relative;
-  }
-  .actions button::after {
-    content: attr(data-symbol);
-    text-indent: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-size: inherit;
-  }
+    input#score::-webkit-inner-spin-button,
+    input#score::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .actions button {
+        padding: 10px;
+        font-size: 1.1rem;
+        width: 40px;
+        height: 40px;
+        text-indent: -9999px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .actions button::after {
+        content: attr(data-symbol);
+        text-indent: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-size: inherit;
+    }
 }
