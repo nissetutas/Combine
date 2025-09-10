@@ -497,6 +497,16 @@ input#score::-webkit-outer-spin-button {
   user-select: none;
 }
 
+#score {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    min-height: 1.5em; /* Prevent layout shift */
+    border-top: 1px solid var(--line);
+    padding-top: 15px;
+}
+
 .marker {
     position: absolute;
     width: 10px;

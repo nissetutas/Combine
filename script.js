@@ -647,10 +647,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let totalScore = 0;
   let hits = [];
   let modalTurnFinished = false;
-  let stickyCheckoutRoute = null; // This seems to be part of the old logic, let's keep it for now.
+  let stickyCheckoutRoute = null;
 
   const dartBoardBtn = document.getElementById('dartBoardBtn');
-  const dartboard = document.getElementById('dartboard'); // Use new ID
+  const dartboard = document.getElementById('dartboard');
+  const scoreDisplay = document.getElementById('score'); // New HUD element
   const modalContent = document.querySelector('.modal-content');
   const remainingScoreTextEl = document.getElementById('remainingScoreText');
   const turnScoreTextEl = document.getElementById('turnScoreText');
@@ -658,9 +659,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const turnHitsTextEl = document.getElementById('turnHitsText');
   const checkoutSuggestionTextEl = document.getElementById('checkoutSuggestionText');
 
-  const isTouchDevice = 'ontouchstart' in window;
+  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-  // Create marker for touch devices
   let marker;
   if (isTouchDevice) {
       marker = document.createElement('div');
@@ -686,6 +686,10 @@ document.addEventListener('DOMContentLoaded', () => {
     hits = [];
     modalTurnFinished = false;
 
+    if (scoreDisplay) {
+        scoreDisplay.textContent = 'Hit: - Points: 0';
+    }
+
     if (isTouchDevice && marker) {
         marker.style.display = 'none';
     }
@@ -706,16 +710,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const dartModal = document.getElementById('dartModal');
     if (dartModal) {
       dartModal.classList.add('hidden');
-      const isBust = modalTurnFinished && remainingScoreTextEl.textContent.toUpperCase() === 'BUST';
-      // The old logic sets score to 0 on bust, which is wrong. It should be the total score thrown.
-      // The submitScore function handles the bust logic. Let's send the actual score.
       document.getElementById('score').value = totalScore;
       submitScore();
     }
   });
 
   function getRelativeOffset() {
-      return window.innerHeight * 0.05; // Relative offset ~5% of screen height
+      return window.innerHeight * 0.05;
   }
 
   function getSvgCoords(clientX, clientY) {
@@ -727,7 +728,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return { x: svgX, y: svgY };
   }
 
-  // New calculateHit function, adapted to include 'type'
   function calculateHit(svgX, svgY) {
       const centerX = 226.5;
       const centerY = 226.5;
@@ -742,10 +742,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const dx = svgX - centerX;
       const dy = svgY - centerY;
       const radius = Math.sqrt(dx * dx + dy * dy);
-      let angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+
+      let angle = (Math.atan2(dy, dx) * (180 / Math.PI) + 99) % 360;
       if (angle < 0) angle += 360;
-      const sectorIndex = Math.floor(angle / 18) % 20;
-      const sector = sectors[sectorIndex];
+      const sector = sectors[Math.floor(angle / 18)];
 
       if (radius <= innerBullRadius) {
           return { hitLabel: 'Double Bull', points: 50, type: 'double' };
@@ -766,6 +766,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function recordHit(points, hitName, type) {
       if (modalTurnFinished || dartThrows >= 3) return;
+
+      if (scoreDisplay) {
+        scoreDisplay.textContent = `Hit: ${hitName} - Points: ${points}`;
+      }
 
       dartThrows++;
       totalScore += points;
@@ -862,6 +866,15 @@ document.addEventListener('DOMContentLoaded', () => {
           dartThrows = hits.length;
           modalTurnFinished = false;
           updateScoreDisplay();
+
+          if (scoreDisplay) {
+            if (hits.length > 0) {
+              const lastHit = hits[hits.length - 1];
+              scoreDisplay.textContent = `Hit: ${lastHit.name} - Points: ${lastHit.score}`;
+            } else {
+              scoreDisplay.textContent = 'Hit: - Points: 0';
+            }
+          }
       }
   });
 });
