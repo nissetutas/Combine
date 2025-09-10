@@ -33,16 +33,15 @@ body {
     color: var(--ink);
     font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
     display: flex;
-    flex-direction: column; /* Gör body till flex-column för att placera footer längst ner */
+    flex-direction: column; /* Behåller flex-column för att stapla main och footer */
     align-items: center;
-    min-height: 100vh; /* Säkerställer att body fyller hela höjden */
 }
 
 .wrap {
     width: 100%;
     max-width: 900px;
     padding: 16px;
-    flex: 1; /* Gör att .wrap tar upp tillgängligt utrymme och trycker footer ner */
+    /* Tar bort flex: 1 för att låta .wrap anpassa sig till innehållets höjd */
 }
 
 .centered {
@@ -52,7 +51,7 @@ body {
     justify-content: flex-start;
     margin-top: 4vh;
     gap: 12px;
-    min-height: calc(100vh - 60px); /* Säkerställer att startsidan fyller skärmen minus footer */
+    /* Tar bort min-height för att låta startsidan ta sin naturliga höjd */
 }
 
 .hidden {
@@ -423,7 +422,7 @@ button#okBtn, button#undoBtn {
     text-align: center;
     color: #8f98a3;
     font-size: 0.8rem;
-    margin: 14px 0 16px; /* Ökat bottom margin för att ge utrymme */
+    margin: 6px 0 16px; /* Minskat top margin för att placera footern närmare sista rutan */
     width: 100%;
     max-width: 900px; /* Samma max-width som .wrap för konsistens */
 }
