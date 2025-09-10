@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== Tema & enkel persistens =====
   try {
-    const savedTheme = localStorage.getItem("dart_theme") || "dark";
+    const savedTheme = localStorage.getItem("dart_theme") || "light"; // Ändrat till "light" som standard
     setTheme(savedTheme);
   } catch (e) {
     console.error("Error accessing localStorage:", e);
@@ -716,7 +716,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function getRelativeOffset() {
-      return window.innerHeight * 0.05;
+      return window.innerHeight * 0.075; // Ökat från 0.05 till 0.075 för större offset
   }
 
   function getSvgCoords(clientX, clientY) {
