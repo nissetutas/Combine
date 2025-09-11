@@ -39,9 +39,47 @@ document.addEventListener('DOMContentLoaded', () => {
     top10Game: $("#top10Game"),
     themeLightBtn: $("#themeLightBtn"),
     themeDarkBtn: $("#themeDarkBtn"),
+    infoBox: $("#infoBox"),
   };
   const playTypeSelect = document.getElementById("playType");
   const teamHint = document.getElementById("teamHint");
+
+  // ===== Info Box Logic =====
+  const infoBoxContent = {
+    welcome: `
+      <h3>Välkommen!</h3>
+      <p>Denna app hjälper dig att hålla koll på poängen i dartspel.</p>
+      <p>När du startar en match kan du välja att skriva in resultatet direkt eller trycka på 🎯-ikonen för att registrera varje pil separat.</p>
+      <p>Lycka till och ha kul!</p>
+    `,
+    '301/501': `
+      <h3>Dart 301/501 med dubbel ut</h3>
+      <ul>
+        <li><strong>Start:</strong> 301/501 poäng, målet är 0.</li>
+        <li><strong>Kast:</strong> 3 pilar/omgång, poäng dras från totalen.</li>
+        <li><strong>Dubbel ut:</strong> Sista kastet måste vara dubbel eller bullseye.</li>
+        <li><strong>Bust:</strong> Under 2 poäng eller 0 utan dubbel/bullseye → poäng återställs.</li>
+        <li><strong>Vinst:</strong> Först till 0 med dubbel/bullseye.</li>
+      </ul>
+    `
+  };
+
+  function updateInfoBox(mode) {
+    if (mode === '301' || mode === '501') {
+      els.infoBox.innerHTML = infoBoxContent['301/501'];
+    } else {
+      els.infoBox.innerHTML = infoBoxContent.welcome;
+    }
+  }
+
+  els.mode.addEventListener('change', (e) => {
+    const selectedMode = e.target.value;
+    updateInfoBox(selectedMode);
+    els.startBtn.disabled = selectedMode === "";
+  });
+
+  // Disable start button initially
+  els.startBtn.disabled = true;
 
   // ===== Tema & enkel persistens =====
   try {
