@@ -577,8 +577,8 @@ button#okBtn, button#undoBtn {
 
 .marker {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     background-color: #FFFF00;
     border-radius: 50%;
     pointer-events: none;
