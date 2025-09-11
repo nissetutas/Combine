@@ -674,4 +674,22 @@ button#okBtn, button#undoBtn {
         height: 100%;
         font-size: inherit;
     }
+
+    /* Responsive start page layout */
+    .start-layout {
+        flex-direction: column;
+    }
+
+    .start-menus {
+        flex-basis: auto; /* Reset basis */
+    }
+
+    .start-menus .row_two {
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .start-menus .row_two > div {
+        flex: 1; /* Make dropdown containers share width */
+    }
 }
