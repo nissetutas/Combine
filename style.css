@@ -389,6 +389,49 @@ button#okBtn, button#undoBtn {
     flex-shrink: 0;
 }
 
+/* ===== Start Page Layout ===== */
+.start-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.start-menus {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-card {
+    flex: 1;
+    padding: 14px;
+    background: var(--bg); /* Use main background for a slightly different look */
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.info-card h3 {
+    margin-top: 0;
+    color: var(--accent);
+}
+
+.info-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 10px;
+}
+.info-card ul {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    padding-left: 20px;
+}
+.info-card li {
+    margin-bottom: 5px;
+}
+
 /* ===== Inmatning (sticky i mobil) ===== */
 .inputbar {
     display: flex;

@@ -16,25 +16,36 @@
         <label for="names">Spelare (kommaseparerade)</label>
         <input id="names" type="text" placeholder="t.ex. Anna, Bosse, Cecilia" />
       </div>
-      <div class="row_two">
-        <div>
-          <label for="mode">Speltyp</label>
-          <select id="mode">
-            <option value="301" selected>301</option>
-            <option value="501">501</option>
-          </select>
-        </div>
-        <div>
-          <label for="playType">Spelform</label>
-          <select id="playType">
-            <option value="individual" selected>Individ</option>
-            <option value="teams">Lag</option>
-          </select>
-          <div id="teamHint" class="hint muted" style="display:none;">
-            I lagspel delas spelarna in parvis (2 och 2).<br>
-            Laget har gemensam poäng.<br>
-            Vid udda antal får sista spelaren ett eget lag.
+      <div class="start-layout">
+        <div class="start-menus">
+          <div class="row_two">
+            <div>
+              <label for="mode">Speltyp</label>
+              <select id="mode">
+                <option value="" selected disabled>Välj spel</option>
+                <option value="301">301</option>
+                <option value="501">501</option>
+              </select>
+            </div>
+            <div>
+              <label for="playType">Spelform</label>
+              <select id="playType">
+                <option value="individual" selected>Individ</option>
+                <option value="teams">Lag</option>
+              </select>
+              <div id="teamHint" class="hint muted" style="display:none;">
+                I lagspel delas spelarna in parvis (2 och 2).<br>
+                Laget har gemensam poäng.<br>
+                Vid udda antal får sista spelaren ett eget lag.
+              </div>
+            </div>
           </div>
+        </div>
+        <div id="infoBox" class="info-card">
+          <h3>Välkommen!</h3>
+          <p>Denna app hjälper dig att hålla koll på poängen i dartspel.</p>
+          <p>När du startar en match kan du välja att skriva in resultatet direkt eller trycka på 🎯-ikonen för att registrera varje pil separat.</p>
+          <p>Lycka till och ha kul!</p>
         </div>
       </div>
       <div>
