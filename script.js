@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <li><strong>Start:</strong> 301/501 poäng, målet är 0.</li>
         <li><strong>Kast:</strong> 3 pilar/omgång, poäng dras från totalen.</li>
         <li><strong>Dubbel ut:</strong> Sista kastet måste vara dubbel eller bullseye.</li>
-        <li><strong>Bust:</strong> Under 2 poäng (1 eller lägre) eller 0 utan dubbel/bullseye, återställs poängen (BUST).</li>
+        <li><strong>Bust:</strong> Under 2 poäng eller 0 utan dubbel/bullseye → poäng återställs.</li>
         <li><strong>Vinst:</strong> Först till 0 med dubbel/bullseye.</li>
       </ul>
     `
