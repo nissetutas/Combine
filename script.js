@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
     '301/501': `
       <h3>Dart 301/501 med dubbel ut</h3>
       <ul>
-        <li><strong>Start:</strong> 301 eller 501 poäng, målet är exakt 0.</li>
-        <li><strong>Kast:</strong> Tre pilar per omgång, poäng dras från totalen.</li>
-        <li><strong>Dubbel ut:</strong> Sista kastet måste vara en dubbel eller bullseye för att vinna.</li>
-        <li><strong>Bust:</strong> Om poängen blir under 2 (1 eller lägre) eller 0 utan dubbel/bullseye, återställs poängen (BUST).</li>
-        <li><strong>Vinst:</strong> Först till exakt 0 med dubbel eller bullseye vinner.</li>
+        <li><strong>Start:</strong> 301/501 poäng, målet är 0.</li>
+        <li><strong>Kast:</strong> 3 pilar/omgång, poäng dras från totalen.</li>
+        <li><strong>Dubbel ut:</strong> Sista kastet måste vara dubbel eller bullseye.</li>
+        <li><strong>Bust:</strong> Under 2 poäng (1 eller lägre) eller 0 utan dubbel/bullseye, återställs poängen (BUST).</li>
+        <li><strong>Vinst:</strong> Först till 0 med dubbel/bullseye.</li>
       </ul>
     `
   };
