@@ -326,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function undoLast() {
     if (!turns.length) return;
+    stickyCheckoutRoute = null; // Also reset sticky route here for consistency
     const last = turns.pop();
 
     if (playType === "individual") {
@@ -438,10 +439,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const preferredRoutes = {
-    170: ["T20 T20 Bull"],
-    167: ["T20 T19 Bull"],
-    164: ["T20 T18 Bull", "T19 T19 Bull"],
-    161: ["T20 T17 Bull"],
+    170: ["T20 T20 Bullseye"],
+    167: ["T20 T19 Bullseye"],
+    164: ["T20 T18 Bullseye", "T19 T19 Bullseye"],
+    161: ["T20 T17 Bullseye"],
     160: ["T20 T20 D20"],
     158: ["T20 T20 D19"],
     157: ["T20 T19 D20"],
@@ -451,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     153: ["T20 T19 D18"],
     152: ["T20 T20 D16"],
     151: ["T20 T17 D20", "T19 T18 D20"],
-    150: ["T20 T18 D18", "T20 T20 D15", "Bull Bull Bull"],
+    150: ["T20 T18 D18", "T20 T20 D15", "Bullseye Bullseye Bullseye"],
     149: ["T20 T19 D16"],
     148: ["T20 T20 D14"],
     147: ["T20 T17 D18", "T19 T18 D18"],
@@ -466,20 +467,20 @@ document.addEventListener('DOMContentLoaded', () => {
     138: ["T20 T14 D18"],
     137: ["T20 T19 D10", "T19 T16 D16"],
     136: ["T20 T20 D8"],
-    135: ["T20 T15 D15", "Bull T15 D10"],
+    135: ["T20 T15 D15", "Bullseye T15 D10"],
     134: ["T20 T14 D16"],
     133: ["T20 T19 D8"],
-    132: ["T20 T20 D6", "Bull Bull D16"],
+    132: ["T20 T20 D6", "Bullseye Bullseye D16"],
     131: ["T20 T13 D16"],
-    130: ["T20 T20 D5", "20 T20 Bull"],
+    130: ["T20 T20 D5", "20 T20 Bullseye"],
     129: ["T19 T16 D12"],
     128: ["T18 T14 D16"],
     127: ["T20 T17 D8"],
     126: ["T19 T19 D6"],
-    125: ["Bull T15 D20", "25 T20 D20"],
+    125: ["Bullseye T15 D20", "25 T20 D20"],
     124: ["T20 16 D20", "T20 T14 D11"],
     123: ["T19 16 D20"],
-    122: ["T18 T18 D7", "Bull T14 D15"],
+    122: ["T18 T18 D7", "Bullseye T14 D15"],
     121: ["T20 T11 D14", "T19 T16 D8"],
     120: ["T20 20 D20"],
     119: ["T19 12 D20"],
@@ -491,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
     113: ["T20 13 D20"],
     112: ["T20 12 D20"],
     111: ["T20 11 D20"],
-    110: ["T20 Bull", "T20 10 D20"],
+    110: ["T20 Bullseye", "T20 10 D20"],
     109: ["T19 12 D20", "T20 9 D20"],
     108: ["T20 16 D16", "T19 19 D16"],
     107: ["T19 10 D20", "T17 16 D20"],
@@ -519,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
     85: ["T19 D14", "T15 D20"],
     84: ["T20 D12", "T16 D18"],
     83: ["T17 D16"],
-    82: ["Bull D16", "T14 D20"],
+    82: ["Bullseye D16", "T14 D20"],
     81: ["T19 D12"],
     80: ["T20 D10", "T16 D16"],
     79: ["T13 D20", "T19 D11"],
@@ -551,7 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
     53: ["13 D20"],
     52: ["12 D20", "20 D16"],
     51: ["19 D16", "11 D20"],
-    50: ["Bull", "10 D20"],
+    50: ["Bullseye", "10 D20"],
     49: ["17 D16", "9 D20"],
     48: ["16 D16", "8 D20"],
     47: ["15 D16", "7 D20"],
@@ -617,13 +618,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const singles = Array.from({ length: 20 }, (_, i) => (i + 1).toString());
     const doubles = Array.from({ length: 20 }, (_, i) => "D" + (i + 1));
     const triples = ["T20", "T19", "T18", "T17", "T16"];
-    const allHits = [].concat(triples, singles, doubles, ["25", "Bull"]);
-    const finishing = doubles.concat(["Bull"]);
+    const allHits = [].concat(triples, singles, doubles, ["25", "Bullseye"]);
+    const finishing = doubles.concat(["Bullseye"]);
 
     function value(hit) {
       if (hit.startsWith("D")) return 2 * parseInt(hit.slice(1));
       if (hit.startsWith("T")) return 3 * parseInt(hit.slice(1));
-      if (hit === "Bull") return 50;
+      if (hit === "Bullseye") return 50;
       if (hit === "25") return 25;
       return parseInt(hit);
     }
@@ -771,10 +772,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return hitLabel.slice(1);
     }
     if (hitLabel === 'Bullseye') {
-      return 'Bull';
+      return 'Bullseye'; // Map to itself
     }
     if (hitLabel === 'Bull') {
-      return '25';
+      return '25'; // Map 25-bull to '25'
     }
     return hitLabel; // For T, D, and Miss
   }
@@ -901,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
           remainingScoreTextEl.textContent = `Kvar: ${remainingAfterTurn}`;
           turnScoreTextEl.textContent = `Poäng: ${totalScore}`;
       }
-      dartCountTextEl.textContent = `Kast: ${dartThrows}/3`;
+      dartCountTextEl.textContent = `${dartThrows}/3`;
       turnHitsTextEl.textContent = `Träffar: ${displayHits || "–"}`;
 
       let checkout = "";
@@ -928,6 +929,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('undoModal').addEventListener('click', () => {
       if (hits.length > 0) {
+          stickyCheckoutRoute = null; // Reset sticky route on undo
           hits.pop();
           totalScore = hits.reduce((sum, hit) => sum + hit.score, 0);
           dartThrows = hits.length;
