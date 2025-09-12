@@ -770,7 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hitLabel.startsWith('S')) {
       return hitLabel.slice(1);
     }
-    if (hitLabel === 'Double Bull') {
+    if (hitLabel === 'Bullseye') {
       return 'Bull';
     }
     if (hitLabel === 'Bull') {
@@ -799,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const sector = sectors[Math.floor(angle / 18)];
 
       if (radius <= innerBullRadius) {
-          return { hitLabel: 'Double Bull', points: 50, type: 'double' };
+          return { hitLabel: 'Bullseye', points: 50, type: 'double' };
       } else if (radius <= outerBullRadius) {
           return { hitLabel: 'Bull', points: 25, type: 'single' };
       } else if (radius > outerDoubleRadius) {

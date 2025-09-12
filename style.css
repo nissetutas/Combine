@@ -169,6 +169,10 @@ button:disabled {
     cursor: not-allowed;
 }
 
+#undoBtn, #undoModal {
+    touch-action: manipulation;
+}
+
 /* ===== Tema-knappar ===== */
 .theme-buttons {
     position: fixed;
