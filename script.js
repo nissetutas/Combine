@@ -766,6 +766,19 @@ document.addEventListener('DOMContentLoaded', () => {
       return { x: svgX, y: svgY };
   }
 
+  function mapHitToRouteFormat(hitLabel) {
+    if (hitLabel.startsWith('S')) {
+      return hitLabel.slice(1);
+    }
+    if (hitLabel === 'Bullseye') {
+      return 'Bull';
+    }
+    if (hitLabel === 'Bull') {
+      return '25';
+    }
+    return hitLabel; // For T, D, and Miss
+  }
+
   function calculateHit(svgX, svgY) {
       const centerX = 226.5;
       const centerY = 226.5;
@@ -786,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const sector = sectors[Math.floor(angle / 18)];
 
       if (radius <= innerBullRadius) {
-          return { hitLabel: 'Double Bull', points: 50, type: 'double' };
+          return { hitLabel: 'Bullseye', points: 50, type: 'double' };
       } else if (radius <= outerBullRadius) {
           return { hitLabel: 'Bull', points: 25, type: 'single' };
       } else if (radius > outerDoubleRadius) {
@@ -807,6 +820,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (scoreDisplay) {
         scoreDisplay.textContent = `Last Hit: ${hitName} (${points} pts)`;
+      }
+
+      // Sticky checkout logic
+      if (stickyCheckoutRoute && stickyCheckoutRoute.length > 0) {
+        const routeHit = mapHitToRouteFormat(hitName);
+        if (routeHit === stickyCheckoutRoute[0]) {
+          stickyCheckoutRoute.shift(); // Hit was correct, remove it from the route
+        } else {
+          stickyCheckoutRoute = null; // Missed the route, invalidate it
+        }
       }
 
       dartThrows++;
@@ -883,11 +906,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let checkout = "";
       if (!modalTurnFinished) {
-          const scoreForSuggestion = getCurrentPlayerRemainingScore() - totalScore;
-          if (scoreForSuggestion >= 2 && scoreForSuggestion <= 170) {
-              const suggestions = checkoutText(scoreForSuggestion);
-              checkout = suggestions ? `Ut: ${suggestions.split(' <span class="checkout-separator">|</span> ')[0]}` : "";
+        const scoreForSuggestion = getCurrentPlayerRemainingScore() - totalScore;
+        if (stickyCheckoutRoute && stickyCheckoutRoute.length > 0) {
+          checkout = `Ut: ${stickyCheckoutRoute.join(' ')}`;
+        } else if (scoreForSuggestion >= 2 && scoreForSuggestion <= 170) {
+          const suggestions = checkoutText(scoreForSuggestion);
+          if (suggestions) {
+            const bestRoute = suggestions.split(' <span class="checkout-separator">|</span> ')[0];
+            checkout = `Ut: ${bestRoute}`;
+            stickyCheckoutRoute = bestRoute.split(' '); // Set the new sticky route
           }
+        }
       }
       checkoutSuggestionTextEl.innerHTML = checkout;
 

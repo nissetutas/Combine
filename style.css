@@ -169,6 +169,10 @@ button:disabled {
     cursor: not-allowed;
 }
 
+#undoBtn, #undoModal {
+    touch-action: manipulation;
+}
+
 /* ===== Tema-knappar ===== */
 .theme-buttons {
     position: fixed;
@@ -471,20 +475,28 @@ button#okBtn, button#undoBtn {
 
 /* ===== Footer ===== */
 .footer {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: #8f98a3;
     font-size: 0.8rem;
     margin: 6px 0 16px;
     width: 100%;
     max-width: 900px;
+    padding: 0 16px;
 }
 
-.version-number {
-    position: fixed;
-    bottom: 10px;
-    left: 16px;
-    color: #8f98a3;
-    font-size: 0.8rem;
+.footer-left, .footer-center, .footer-right {
+    flex: 1;
+}
+
+.footer-center {
+    text-align: center;
+}
+
+.footer-right {
+    text-align: right;
+    color: var(--line);
 }
 
 /* ===== Dartboard Modal ===== */
