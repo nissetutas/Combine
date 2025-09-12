@@ -326,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function undoLast() {
     if (!turns.length) return;
+    stickyCheckoutRoute = null; // Also reset sticky route here for consistency
     const last = turns.pop();
 
     if (playType === "individual") {
@@ -901,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
           remainingScoreTextEl.textContent = `Kvar: ${remainingAfterTurn}`;
           turnScoreTextEl.textContent = `Poäng: ${totalScore}`;
       }
-      dartCountTextEl.textContent = `Kast: ${dartThrows}/3`;
+      dartCountTextEl.textContent = `${dartThrows}/3`;
       turnHitsTextEl.textContent = `Träffar: ${displayHits || "–"}`;
 
       let checkout = "";
@@ -928,6 +929,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('undoModal').addEventListener('click', () => {
       if (hits.length > 0) {
+          stickyCheckoutRoute = null; // Reset sticky route on undo
           hits.pop();
           totalScore = hits.reduce((sum, hit) => sum + hit.score, 0);
           dartThrows = hits.length;
