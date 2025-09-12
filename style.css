@@ -58,6 +58,13 @@ body {
     display: none !important;
 }
 
+#start h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 #start .card {
     width: 100%;
     max-width: none;
