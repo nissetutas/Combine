@@ -58,6 +58,13 @@ body {
     display: none !important;
 }
 
+#start h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 #start .card {
     width: 100%;
     max-width: none;
@@ -302,6 +309,8 @@ input#score::-webkit-outer-spin-button {
     vertical-align: middle;
     line-height: 1;
     height: 40px; /* Samma höjd som input och knappar */
+    position: relative;
+    top: -2px;
 }
 
 button#okBtn, button#undoBtn {
@@ -465,9 +474,17 @@ button#okBtn, button#undoBtn {
     text-align: center;
     color: #8f98a3;
     font-size: 0.8rem;
-    margin: 6px 0 16px; /* Minskat top margin för att placera footern närmare sista rutan */
+    margin: 6px 0 16px;
     width: 100%;
-    max-width: 900px; /* Samma max-width som .wrap för konsistens */
+    max-width: 900px;
+}
+
+.version-number {
+    position: fixed;
+    bottom: 10px;
+    left: 16px;
+    color: #8f98a3;
+    font-size: 0.8rem;
 }
 
 /* ===== Dartboard Modal ===== */
@@ -577,8 +594,8 @@ button#okBtn, button#undoBtn {
 
 .marker {
     position: absolute;
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     background-color: #FFFF00;
     border-radius: 50%;
     pointer-events: none;
