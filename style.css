@@ -492,6 +492,7 @@ button#okBtn, button#undoBtn {
 
 .footer-right {
     text-align: right;
+    color: var(--line);
 }
 
 /* ===== Dartboard Modal ===== */
