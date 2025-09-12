@@ -302,6 +302,8 @@ input#score::-webkit-outer-spin-button {
     vertical-align: middle;
     line-height: 1;
     height: 40px; /* Samma höjd som input och knappar */
+    position: relative;
+    top: -2px;
 }
 
 button#okBtn, button#undoBtn {
