@@ -462,6 +462,15 @@ button#okBtn, button#undoBtn {
 
 /* ===== Footer ===== */
 .footer {
+    text-align: center;
+    color: #8f98a3;
+    font-size: 0.8rem;
+    margin: 6px 0 16px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.version-number {
     position: fixed;
     bottom: 10px;
     left: 16px;
